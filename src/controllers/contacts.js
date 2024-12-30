@@ -52,7 +52,7 @@ export const upsertContactController = async (req, res) => {
 
 export const patchContactController = async (req, res) => {
   const { id } = req.params;
-  const result = await contactServices.updateMovie(id, req.body);
+  const result = await contactServices.updateContact(id, req.body);
 
   if (!result) {
     throw createError(404, `Contact with id=${id} not found`);
@@ -65,7 +65,7 @@ export const patchContactController = async (req, res) => {
   });
 };
 
-export const deleteContactieController = async (req, res) => {
+export const deleteContactController = async (req, res) => {
   const { id } = req.params;
   const data = await contactServices.deleteContact({ _id: id });
 
