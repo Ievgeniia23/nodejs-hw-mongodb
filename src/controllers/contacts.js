@@ -2,9 +2,14 @@ import createError from "http-errors";
 
 import * as contactServices from '../services/contacts.js';
 
+import { parsePaginationParams } from "../utils/parsePaginationParams.js";
+
 export const getContactsController = async (req, res) => {
 
-    const contacts = await contactServices.getContacts();
+const { page, perPage } = parsePaginationParams(req.query);
+
+
+  const contacts = await contactServices.getContacts({ page, perPage });
     res.json(contacts);
   };
 
@@ -17,7 +22,7 @@ if (!data) {
 
     throw createError(404, `Contact with id=${id} not found`);
    
-  }
+  };
     res.json({
       status: 200,
       message: `Successfully found contact with id =${id}`,
@@ -26,6 +31,15 @@ if (!data) {
 };
    
 export const addContactController = async (req, res) => {
+  // try {
+  //   await contactAddSchema.validateAsync(req.body, {
+  // abortEarly: false,
+  //   });
+  // }
+  //  catch (error) {
+  //   throw createError(400, error.message);
+  // }
+  
   const data = await contactServices.addContact(req.body);
 
   res.status(201).json({
@@ -36,6 +50,15 @@ export const addContactController = async (req, res) => {
 };
 
 export const upsertContactController = async (req, res) => {
+    // try {
+    //   await contactAddSchema.validateAsync(req.body, {
+    //     abortEarly: false,
+    //   });
+    // } catch (error) {
+    //   throw createError(400, error.message);
+    // }
+  
+  
   const { id } = req.params;
   const { isNew, data } = await contactServices.updateContact(id, req.body, {
     upsert: true,
@@ -51,6 +74,16 @@ export const upsertContactController = async (req, res) => {
 };
 
 export const patchContactController = async (req, res) => {
+  // try {
+  //   await contactUpdateSchema.validateAsync(req.body, {
+  //     abortEarly: false,
+  //   });
+  // } catch (error) {
+  //   throw createError(400, error.message);
+  // }
+   
+  
+  
   const { id } = req.params;
   const result = await contactServices.updateContact(id, req.body);
 
