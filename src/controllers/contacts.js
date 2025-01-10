@@ -9,23 +9,39 @@ import { sortByList } from "../db/models/Contact.js";
 
 
 export const getContactsController = async (req, res) => {
+  try {
+    const { page, perPage } = parsePaginationParams(req.query);
+    const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
 
-const { page, perPage } = parsePaginationParams(req.query);
-const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
-
-  
-  const data = await contactServices.getContacts({
-    page,
-    perPage,
-    sortBy,
-    sortOrder
-  });
-  res.json({
-    status: 200,
-    message: "Successfully found contacts",
-    data,
+    const { items, total, totalPages, hasNextPage, hasPrevPage } =
+      await contactServices.getContacts({
+        page,
+        perPage,
+        sortBy,
+        sortOrder,
+      });
+    res.json({
+      status: 200,
+      message: 'Successfully found contacts',
+      data: {
+        data: items,
+        page,
+        perPage,
+        totalItems: total,
+        totalPages,
+        hasPreviousPage: hasPrevPage,
+        hasNextPage,
+      },
     });
-  };
+  } catch (error) {
+    
+    res.status(500).json({
+      status: 500,
+      message: 'Something went wrong',
+      data: error.message,
+    });
+  }
+};
 
 export const getContactByIdController = async (req, res) => {
    
