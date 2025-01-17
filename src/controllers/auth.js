@@ -70,11 +70,3 @@ export const loginController = async (req, res) => {
   
 
  
-// {
-// "name": "Ievgeniia",
-// "email": "ievgeniia@gmail.com",
-// "password":"123456"
-// }
-
-// V8KzQww5I46TOo2wVyuNknQXBKC02NZqvxKFU4Rs;
-// 6787e57cf1af0e60147af766

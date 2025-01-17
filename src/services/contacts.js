@@ -30,11 +30,11 @@ export const getContacts = async ({
 // }
   
   
-  const items = await ContactCollection.find()
-    
+  const items = await contactsQuery
     .skip(skip)
     .limit(limit)
     .sort({ [sortBy]: sortOrder });
+  
   const total = await ContactCollection.countDocuments();
     
   const paginationData = calcPaginationdata({ total, page, perPage });

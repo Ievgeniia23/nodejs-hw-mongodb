@@ -23,6 +23,7 @@ export const getContactsController = async (req, res) => {
         perPage,
         sortBy,
         sortOrder,
+        filter,
       });
     res.json({
       status: 200,
@@ -34,7 +35,7 @@ export const getContactsController = async (req, res) => {
         totalItems: total,
         totalPages,
         hasPreviousPage: hasPrevPage,
-        hasNextPage,
+        hasNextPage: hasNextPage,
       },
     });
   } catch (error) {
@@ -52,8 +53,8 @@ export const getContactByIdController = async (req, res) => {
   const { id: _id } = req.params;
   
   
-    const { id } = req.params;
-    const data = await contactServices.getContactById({ _id: userId });
+    // const { id } = req.params;
+    const data = await contactServices.getContact({ _id, userId });
 
 if (!data) {
 
@@ -62,7 +63,7 @@ if (!data) {
   };
     res.json({
       status: 200,
-      message: `Successfully found contact with id =${id}`,
+      message: `Successfully found contact with id =${_id}`,
       data,
     });
 };
