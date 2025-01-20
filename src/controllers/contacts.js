@@ -6,14 +6,12 @@ import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
 import {parseContactFilterParams} from "../utils/filters/parseContactFilterParams.js";
 
-
 import { sortByList } from "../db/models/Contact.js";
 
 export const getContactsController = async (req, res) => {
   try {
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
-
     const filter = parseContactFilterParams(req.query);
     filter.userId = req.user._id;
        
@@ -23,7 +21,7 @@ export const getContactsController = async (req, res) => {
         perPage,
         sortBy,
         sortOrder,
-        filter,
+        filter
       });
     res.json({
       status: 200,
