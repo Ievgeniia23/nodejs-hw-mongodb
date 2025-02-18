@@ -2,6 +2,8 @@ import { Router } from 'express';
 
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { upload } from '../middlewares/multer.js';
+
 
 
 import *as contactsController from '../controllers/contacts.js';
@@ -27,7 +29,7 @@ contactsRouter.get(
   '/:id',isValidId, ctrlWrapper(contactsController.getContactByIdController),
 );
 
-contactsRouter.post('/', validateBody(contactAddSchema), ctrlWrapper(contactsController.addContactController));
+contactsRouter.post('/', upload.single("photo"), validateBody(contactAddSchema), ctrlWrapper(contactsController.addContactController));
   
 contactsRouter.put(
   '/:id', isValidId,

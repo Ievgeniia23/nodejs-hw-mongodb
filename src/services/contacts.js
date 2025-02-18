@@ -35,14 +35,14 @@ console.log('Filter applied:', filter);
     .limit(limit)
     .sort({ [sortBy]: sortOrder });
   
-   console.log('Contacts found:', items);
+  //  console.log('Contacts found:', items);
  
   
   const total = await ContactCollection.countDocuments(
     contactsQuery.getFilter(),
   );
 
-   console.log('Total contacts count for user:', total);
+  //  console.log('Total contacts count for user:', total);
   // const total = await ContactCollection.find().merge(contactsQuery).countDocuments();
   //   console.log('Contacts found:', items); 
   // console.log('Total contacts:', total);

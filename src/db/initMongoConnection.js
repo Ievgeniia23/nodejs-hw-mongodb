@@ -17,7 +17,7 @@ export const initMongoConnection = async () => {
     
     }
     catch (error) {
-        console.log(`Error connection Mongo $(error.message)`);
+        console.error(`Error connection Mongo ${error.message}`);
         throw error;
     }
 };
