@@ -131,16 +131,16 @@ export const verify = async (token) => {
 
 export const login = async ({ email, password }) => {
   const user = await UserCollection.findOne({ email });
-  
+
   console.log('User found:', user);
-  
+
   if (!user) {
     throw createHttpError(401, 'Email or password invalid');
   }
 
-  if (!user.verify) {
-    throw createHttpError(401, 'Email not verified');
-  }
+  // if (!user.verify) {
+  //   throw createHttpError(401, 'Email not verified');
+  // }
 
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
