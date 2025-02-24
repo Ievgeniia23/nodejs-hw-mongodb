@@ -7,6 +7,7 @@ import {
   authLoginSchema,
   resetEmailSchema,
   resetPasswordSchema,
+  googleOAuthSchema,
 } from '../validation/auth.js';
 
 const authRouter = Router();
@@ -18,6 +19,18 @@ authRouter.post(
   validateBody(authUserSchema),
   ctrlWrapper(authController.registerController),
 );
+
+authRouter.get(
+  '/get-oauth-url',
+  ctrlWrapper(authController.getGoogleOauthController),
+);
+
+authRouter.post(
+  '/confirm-oauth',
+  validateBody(googleOAuthSchema),
+  ctrlWrapper(authController.loginWithGoogleController),
+);
+
 
 authRouter.get('/verify', ctrlWrapper(authController.verifyController));
 

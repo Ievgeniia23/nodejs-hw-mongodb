@@ -11,6 +11,7 @@ import SessionCollection from '../db/models/Session.js';
 
 import { sendEmail } from '../utils/sendMail.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
+import { validateCode, getUsernameFromGoogleTokenPayload } from '../utils/googleOAuth2.js';
 
 import {
   accessTokenLifetime,
@@ -210,6 +211,35 @@ export const refreshToken = async (payload) => {
     ...sessionData,
   });
 };
+
+export const loginOrRegisterWithGoogle = async (code) => {
+  const loginTicket = await validateCode(code);
+  const payload = loginTicket.getPayload();
+
+  let user = await UserCollection.findOne({ email: payload.email });
+  if (!user) {
+    const username = getUsernameFromGoogleTokenPayload(payload);
+       
+    const password = await bcrypt.hash(randomBytes(10).toString('base64'), 10);
+
+    user = await UserCollection.create({
+      email: payload.email,
+      username,
+      password,
+    });
+  }
+
+  const sessionData = createSessionData();
+
+  return SessionCollection.create({
+    userId: user._id,
+    ...sessionData,
+  });
+};
+
+
+
+
 
 export const logout = async (sessionId) => {
   await SessionCollection.deleteOne({ _id: sessionId });

@@ -4,16 +4,13 @@ import cookieParser from 'cookie-parser';
 
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
-
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 import authRouter from './routers/auth.js';
 
 import contactsRouter from './routers/contacts.js';
 
-
 import { getEnvVar } from './utils/getEnvVar.js';
-
-
 
 export const setupServer = () => {
  const app = express();
@@ -26,9 +23,10 @@ export const setupServer = () => {
 
   app.use("/auth", authRouter);
 
-app.use('/contacts', contactsRouter);
+  app.use('/contacts', contactsRouter);
   
-  
+  app.use("/api-docs", swaggerDocs());
+
   app.use(notFoundHandler);
   
   app.use(errorHandler);
